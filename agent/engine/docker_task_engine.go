@@ -578,11 +578,12 @@ func (engine *DockerTaskEngine) createContainer(task *api.Task, container *api.C
 	seelog.Infof("Created container name mapping for task %s - %s -> %s", task, container, containerName)
 	engine.saver.ForceSave()
 
+	createStart := time.Now()
 	metadata := client.CreateContainer(config, hostConfig, containerName, createContainerTimeout)
 	if metadata.DockerID != "" {
 		engine.state.AddContainer(&api.DockerContainer{DockerID: metadata.DockerID, DockerName: containerName, Container: container}, task)
 	}
-	seelog.Infof("Created docker container for task %s: %s -> %s", task, container, metadata.DockerID)
+	seelog.Infof("Created docker container for task %s: %s -> %s, took %s", task, container, metadata.DockerID, time.Since(createStart))
 	return metadata
 }
 
