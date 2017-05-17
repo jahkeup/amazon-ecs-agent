@@ -61,7 +61,7 @@ func NewECSClient(credentialProvider *credentials.Credentials, config *config.Co
 	if config.APIEndpoint != "" {
 		ecsConfig.Endpoint = &config.APIEndpoint
 	}
-	standardClient := ecs.New(session.New(&ecsConfig))
+	standardClient := ecs.New(session.New(&ecsConfig, api.NewDebugLoggerConfig(seelog.Current)))
 	submitStateChangeClient := newSubmitStateChangeClient(&ecsConfig)
 	pollEndpoinCache := async.NewLRUCache(pollEndpointCacheSize, pollEndpointCacheTTL)
 	return &APIECSClient{
