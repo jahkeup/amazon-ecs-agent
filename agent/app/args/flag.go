@@ -21,9 +21,11 @@ const (
 	acceptInsecureCertUsage  = "Disable SSL certificate verification. We do not recommend setting this option"
 	licenseUsage             = "Print the LICENSE and NOTICE files and exit"
 	blacholeEC2MetadataUsage = "Blackhole the EC2 Metadata requests. Setting this option can cause the ECS Agent to fail to work properly.  We do not recommend setting this option"
+	capabilitiesUsage        = "Print the agent capabilities and exit"
 
 	versionFlagName              = "version"
 	logLevelFlagName             = "loglevel"
+	capabilitiesFlagName         = "capabilities"
 	acceptInsecureCertFlagName   = "k"
 	licenseFlagName              = "license"
 	blackholeEC2MetadataFlagName = "blackhole-ec2-metadata"
@@ -43,6 +45,8 @@ type Args struct {
 	// BlackholeEC2Metadata indicates if EC2 Metadata requests should be
 	// blackholed
 	BlackholeEC2Metadata *bool
+	// Capabilities indicates that the agent should print its capabilities.
+	Capabilities *bool
 }
 
 // New creates a new Args object from the argument list
@@ -55,6 +59,7 @@ func New(arguments []string) (*Args, error) {
 		AcceptInsecureCert:   flagset.Bool(acceptInsecureCertFlagName, false, acceptInsecureCertUsage),
 		License:              flagset.Bool(licenseFlagName, false, licenseUsage),
 		BlackholeEC2Metadata: flagset.Bool(blackholeEC2MetadataFlagName, false, blacholeEC2MetadataUsage),
+		Capabilities:         flagset.Bool(capabilitiesFlagName, false, capabilitiesUsage),
 	}
 
 	err := flagset.Parse(arguments)

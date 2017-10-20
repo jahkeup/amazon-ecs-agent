@@ -71,6 +71,8 @@ var (
 type agent interface {
 	// printVersion prints the Agent version string
 	printVersion() int
+	// printCapabilities prints the Agent's capabilities
+	printCapabilities() int
 	// start starts the Agent execution
 	start() int
 }
@@ -160,6 +162,26 @@ func newAgent(
 // printVersion prints the ECS Agent version string
 func (agent *ecsAgent) printVersion() int {
 	version.PrintVersion(agent.dockerClient)
+	return exitcodes.ExitSuccess
+}
+
+// printCapabilities prints the ECS Agent capabilities
+func (agent *ecsAgent) printCapabilities() int {
+	for _, cap := range agent.capabilities() {
+		var (
+			name  string
+			value string
+		)
+
+		if cap.Name != nil {
+			name = *cap.Name
+		}
+		if cap.Value != nil {
+			value = *cap.Value
+		}
+
+		fmt.Printf("%s\t%s\n", name, value)
+	}
 	return exitcodes.ExitSuccess
 }
 
