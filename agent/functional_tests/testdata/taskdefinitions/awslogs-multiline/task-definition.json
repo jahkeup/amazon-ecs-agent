@@ -2,7 +2,7 @@
   "family": "ecs-awslogs-multiline-test",
   "containerDefinitions": [{
     "essential": true,
-    "memory": 10,
+    "memory": 16,
     "name": "awslogs-multiline",
     "cpu": 10,
     "image": "busybox:latest",
